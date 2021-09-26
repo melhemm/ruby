@@ -46,4 +46,16 @@ class Train
     return current_station  if current_station_index == 0
     @current_station = route.stations[current_station_index - 1]
   end
+
+  def show_next_station
+    current_station_index = route.stations.find_index(current_station)
+    next_station = route.stations[current_station_index + 1]
+    puts "The next station is: #{next_station}"
+  end
+
+  def show_prev_station
+    current_station_index = route.stations.find_index(current_station)
+    prev_station = route.stations[current_station_index - 1]
+    puts "The prev station is: #{prev_station}"
+  end
 end

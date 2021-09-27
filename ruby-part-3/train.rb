@@ -1,6 +1,6 @@
 class Train
-  attr_accessor :number , :category , :wagons, :speed
-  attr_reader :current_station, :route
+  attr_accessor :number , :category , :wagons
+  attr_reader :current_station, :route, :speed
 
   def initialize(number, category, wagons) 
     @number = number
@@ -9,26 +9,22 @@ class Train
     @speed = 0
   end
 
-  def increase_speed(given_speed)
-    @speed += given_speed 
+  def increase_speed(value)
+    max_train_speed = 120
+    speed + value < max_train_speed ? @speed += value : @speed
   end
 
-  def break(given_speed)
-    if speed - given_speed < 0
-      @speed = 0
-    else
-      @speed -= given_speed
-    end
+  def break(value)
+    speed - value < 0 ? @speed = 0 : @speed -= value
   end
 
   def add_wagon   
-    @wagons += 1 if speed == 0
+    self.wagons += 1 if speed == 0
   end
 
   def remove_wagon
-    @wagons -= 1 if speed == 0
+    self.wagons -= 1 if speed == 0
   end
-
 
   def add_route(route)
     @route = route
@@ -58,4 +54,5 @@ class Train
     prev_station = route.stations[current_station_index - 1]
     puts "The prev station is: #{prev_station}"
   end
+
 end

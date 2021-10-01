@@ -1,4 +1,4 @@
-class WagonPass < Wagon
+class WagonPassenger < Wagon
   def initialize(id)
     super
     @type = "passenger"

@@ -3,9 +3,9 @@ require './station'
 require './route'
 require './train'
 require './wagon'
-require './train_cargo'
+require './cargo_train'
 require './wagon_cargo'
-require './train_passenger'
+require './passenger_train'
 require './wagon_passenger'
 
 controller = MainMenu.new

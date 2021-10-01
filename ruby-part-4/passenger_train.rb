@@ -4,4 +4,3 @@ class PassengerTrain < Train
     @type = "passenger"
   end
 end
-

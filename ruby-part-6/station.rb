@@ -10,8 +10,21 @@ class Station
     @name = name
     @trains = []
     @@stations << self
-    validation
+    validate!
     register_instance
+  end
+
+  def validate!
+    errors = []
+    errors << 'check station name' if @name !~ STATION_NAME_REGEX
+    raise errors.join('.') unless errors.empty?
+  end
+
+  def valid?
+    validate!
+    true
+   rescue
+    false
   end
 
   def receive_train(train)
@@ -32,22 +45,6 @@ class Station
 
   def self.all
     @@stations
-  end
-
-  def validation 
-    station_name_validation
-  end
-
-  def station_name_validation
-    if @name !~ STATION_NAME_REGEX
-      raise "Please check station name" 
-    end
-  end
-
-  def valid?
-    return true if validation
-    rescue
-    false
   end
 
 end

@@ -4,31 +4,31 @@ class Train
 
   attr_reader :current_station, :route, :speed, :wagons, :type , :number
   
-  @@trains = {}
+  @@trains = []
   @counter = 0
 
   TRAIN_NUMBER_REGEX = /^[a-z0-9]{3}-?[a-z0-9]{2}$/i
+  # ^-?[0-9][0-9,\.]+$
 
   def initialize(number) 
     @number = number
     @type = type
     @wagons = []
     @speed = 0
-    @@trains[number] = self
+    @@trains[number.to_i] = self
     register_instance
-    validation
+    validate!
   end
 
-  def validation
-    validate_train_number
-  end
-
-  def validate_train_number
-    raise 'check train number' if @number !~ TRAIN_NUMBER_REGEX
+  def validate!
+    errors = []
+    errors << 'check train number' if @number !~ TRAIN_NUMBER_REGEX
+    raise errors.join('.') unless errors.empty?
   end
 
   def valid?
-   return true if validation
+    validate!
+    true
    rescue
     false
   end

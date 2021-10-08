@@ -1,3 +1,4 @@
+#  Todo : Remove comments from validation
 class Wagon
   attr_reader :id, :type
   attr_accessor :train

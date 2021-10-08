@@ -24,5 +24,5 @@ end
 #  train = PassengerWagon.new(213, 30)
 # train.book_seat
 #  train.all_seats
-# train.number_of_booked_seats
+# train.number_of_free_seats
 # train.booked_seats

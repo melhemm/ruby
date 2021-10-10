@@ -6,9 +6,8 @@ class Wagon
 
   # WAGON_ID_REGEX = /(?i)^(?=.*[a-z])[a-z0-9]{8,20}$/
 
-  def initialize(id, number_of_seats)
+  def initialize(id)
     @id = id
-    @number_of_seats = number_of_seats
     # validation
   end
 

@@ -1,7 +1,9 @@
 class PassengerWagon < Wagon
+
   def initialize(id, number_of_seats)
-    super
+    super(id)
     @type = "passenger"
+    @number_of_seats = number_of_seats
     @booked_seats = 0
   end
 
@@ -17,12 +19,4 @@ class PassengerWagon < Wagon
     @number_of_seats - @booked_seats
   end
 
-
 end
-
-# load './main.rb'
-#  train = PassengerWagon.new(213, 30)
-# train.book_seat
-#  train.all_seats
-# train.number_of_free_seats
-# train.booked_seats

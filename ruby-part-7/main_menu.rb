@@ -122,7 +122,14 @@ class MainMenu
     type = gets.to_i
     puts "Create an id for wagon:"
     wagon_id = gets.to_s
-    type == 1 ? wagon = PassengerWagon.new(wagon_id) : wagon = CargoWagon.new(wagon_id)
+    if type == 1
+      puts "Enter number of seats"
+      capacity = gets.to_i
+    elsif type == 2
+      puts "Enter wagon capacity"
+      seats = gets.to_i
+    end
+    type == 1 ? wagon = PassengerWagon.new(wagon_id, seats) : wagon = CargoWagon.new(wagon_id, capacity)
     @wagons << wagon
     wagon
   end

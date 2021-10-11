@@ -7,17 +7,17 @@ class Train
   @@trains = []
   @counter = 0
 
-  # TRAIN_NUMBER_REGEX = /^[a-z0-9]{3}-?[a-z0-9]{2}$/i
+  TRAIN_NUMBER_REGEX = /^[a-z0-9]{3}-?[a-z0-9]{2}$/i
   # ^-?[0-9][0-9,\.]+$
 
-  def initialize(number) 
+  def initialize(number)
     @number = number
     @type = type
     @wagons = []
     @speed = 0
     @@trains[number.to_i] = self
     register_instance
-    # validate!
+    validate!
   end
 
   def train_block(block)
@@ -26,18 +26,18 @@ class Train
     end
   end
 
-  # def validate!
-  #   errors = []
-  #   errors << 'check train number' if @number !~ TRAIN_NUMBER_REGEX
-  #   raise errors.join('.') unless errors.empty?
-  # end
+  def validate!
+    errors = []
+    errors << 'check train number' if @number !~ TRAIN_NUMBER_REGEX
+    raise errors.join('.') unless errors.empty?
+  end
 
-  # def valid?
-  #   validate!
-  #   true
-  #  rescue
-  #   false
-  # end
+  def valid?
+    validate!
+    true
+   rescue
+    false
+  end
 
   def self.find(number)
     @@trains[number]

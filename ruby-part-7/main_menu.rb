@@ -18,7 +18,10 @@ class MainMenu
       \n\t7. Add wagon to train
       \n\t8. Remove wagon. 
       \n\t9. Train Controller (Move to the next station or previous).
-      \n\t10. Trains List & Stations List 
+      \n\t10. Trains List & Stations List
+      \n\t11. Wagon list
+      \n\t12. Trains in station
+      \n\t13. Take up space or volume 
       \n\t0. Exit"
       
       choice = gets.to_i
@@ -45,6 +48,12 @@ class MainMenu
       when 10
         trains_list
         stations_list
+      when 11
+        wagons_list
+      when 12
+        trains_in_station
+      when 13
+        take_up_space
       when 0
         break
       end
@@ -197,6 +206,63 @@ class MainMenu
   def trains_list
     @trains.each.with_index(1) do |train, index|
       puts "#{index} TRAIN NUMBER = #{train.number}, TRAIN TYPE = #{train.type} "
+    end
+  end
+
+  # Задание к уроку "Блоки, Proc и lambda"
+
+  def wagons_list
+    puts "Enter train number:"
+    train_number = gets.to_i
+    train = Train.find(train_number)
+    wagon_list(train)
+  end
+
+  def wagon_list(train)
+
+    if train.type == "passenger"
+      block = Proc.new do |key|
+        puts "Wagon #{key.id} #{key.type} booked seats #{key.number_of_free_seats}"
+      end
+      train.train_block block
+    end
+    
+    if train.type == "cargo"
+      block = Proc.new do |key|
+        puts "Wagon #{key.id} #{key.type} volume #{key.available_volume}"
+      end
+      train.train_block block
+    end
+
+  end
+
+  def trains_in_station 
+    puts "choose station"
+    stations_list
+    station_index = gets.to_i
+    station = @stations[station_index - 1]
+    block = Proc.new {|train| puts "Train Number #{train.number} Train type: #{train.type}"}
+    station.station_block block
+  end
+
+  def take_up_space
+    puts "Wagons list choose one"
+    wagons_list
+    wagon_index = gets.to_i
+    wagon = @wagons[wagon_index - 1]
+    take_space(wagon)
+  end
+
+  def take_space(wagon)
+    if wagon.type == "passenger"
+      wagon.book_seat
+      puts wagon.booked_seats
+    end
+    if wagon.type == "cargo"
+      puts "ENter volume"
+      volume = gets.to_i
+      wagon.take_up_volume(volume)
+      puts wagon.show_available_capacity
     end
   end
 

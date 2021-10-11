@@ -1,17 +1,16 @@
-# Todo: remove comments for validation
 class Station
   attr_reader :trains , :name
   include InstanceCounter
 
   @@stations = []
 
-  # STATION_NAME_REGEX = /^[А-Я]{1}[а-яё]{1,23}$/
+  STATION_NAME_REGEX = /^[А-Я]{1}[а-яё]{1,23}$/
 
   def initialize(name)
     @name = name
     @trains = []
     @@stations << self
-    # validate!
+    validate!
     register_instance
   end
 
@@ -21,18 +20,18 @@ class Station
     end
   end
 
-  # def validate!
-  #   errors = []
-  #   errors << 'check station name' if @name !~ STATION_NAME_REGEX
-  #   raise errors.join('.') unless errors.empty?
-  # end
+  def validate!
+    errors = []
+    errors << 'check station name' if @name !~ STATION_NAME_REGEX
+    raise errors.join('.') unless errors.empty?
+  end
 
-  # def valid?
-  #   validate!
-  #   true
-  #  rescue
-  #   false
-  # end
+  def valid?
+    validate!
+    true
+   rescue
+    false
+  end
 
   def receive_train(train)
     @trains << train

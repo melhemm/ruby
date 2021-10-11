@@ -11,5 +11,5 @@ require './passenger_train'
 require './passenger_wagon'
 
 # load 'main.rb'
-# controller = MainMenu.new
-# controller.start_program
+controller = MainMenu.new
+controller.start_program

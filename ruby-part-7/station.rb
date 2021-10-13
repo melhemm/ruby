@@ -14,10 +14,8 @@ class Station
     register_instance
   end
 
-  def station_block(block)
-    @trains.each do |train|
-      block.call(train)
-    end
+  def each_train
+    trains.each { |train| yield(train) } if block_given?
   end
 
   def validate!
@@ -46,7 +44,7 @@ class Station
   end
 
   def show_trains
-    @trains.each {|train| train}
+    @trains.each {|train| puts "#{train}"}
   end
 
   def self.all

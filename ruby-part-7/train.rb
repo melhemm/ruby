@@ -20,10 +20,8 @@ class Train
     validate!
   end
 
-  def train_block(block)
-    @wagons.each do |wagon| 
-      block.call(wagon)
-    end
+  def each_wagon
+    wagons.each {|wagon| yield(wagon)} if block_given?
   end
 
   def validate!

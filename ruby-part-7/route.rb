@@ -4,7 +4,6 @@ class Route
 
   def initialize(start_station , end_station)
     @stations = [start_station, end_station]
-    validation
   end
 
   def add_station(station)

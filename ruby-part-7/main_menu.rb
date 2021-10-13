@@ -22,6 +22,7 @@ class MainMenu
       \n\t11. Wagon list
       \n\t12. Trains in station
       \n\t13. Take up space or volume 
+      \n\t14. routes list
       \n\t0. Exit"
       
       choice = gets.to_i
@@ -49,11 +50,13 @@ class MainMenu
         trains_list
         stations_list
       when 11
-        wagons_list
+        each_wagon_train
       when 12
         trains_in_station
       when 13
         take_up_space
+      when 14
+        all_routes_list
       when 0
         break
       end
@@ -61,6 +64,12 @@ class MainMenu
   end
 
   private
+
+  def create_station 
+    puts "name of station"
+    station_name = gets.strip.capitalize
+    @stations << Station.new(station_name)
+  end
 
   def create_train
     puts "please choose the type of train \n\t1.Cargo\n\t2.Passenger"
@@ -85,7 +94,7 @@ class MainMenu
     puts "choose final station"
     final_station_index = gets.to_i
     final_station = @stations[final_station_index - 1]
-    route = Route.new(first_station , first_station)
+    route = Route.new(first_station , final_station)
     @routes << route
   end
 
@@ -199,7 +208,7 @@ class MainMenu
 
   def all_routes_list
     @routes.each.with_index(1) do |route, index|
-      puts "#{route.name}. #{index}"
+      puts ". #{index}, #{route.stations}"
     end
   end
 
@@ -211,7 +220,7 @@ class MainMenu
 
   # Задание к уроку "Блоки, Proc и lambda"
 
-  def wagons_list
+  def each_wagon_train
     puts "Enter train number:"
     train_number = gets.to_i
     train = Train.find(train_number)
@@ -224,14 +233,14 @@ class MainMenu
       block = Proc.new do |key|
         puts "Wagon #{key.id} #{key.type} booked seats #{key.number_of_free_seats}"
       end
-      train.train_block block
+      train.each_wagon
     end
     
     if train.type == "cargo"
       block = Proc.new do |key|
         puts "Wagon #{key.id} #{key.type} volume #{key.available_volume}"
       end
-      train.train_block block
+      train.each_wagon
     end
 
   end
@@ -241,8 +250,9 @@ class MainMenu
     stations_list
     station_index = gets.to_i
     station = @stations[station_index - 1]
-    block = Proc.new {|train| puts "Train Number #{train.number} Train type: #{train.type}"}
-    station.station_block block
+    station.each_train do |train|
+      puts "Train #{train.type} \ #{train.number} wagons: #{train.wagons.size}"
+    end
   end
 
   def take_up_space
@@ -259,7 +269,7 @@ class MainMenu
       puts wagon.booked_seats
     end
     if wagon.type == "cargo"
-      puts "ENter volume"
+      puts "Enter volume"
       volume = gets.to_i
       wagon.take_up_volume(volume)
       puts wagon.show_available_capacity

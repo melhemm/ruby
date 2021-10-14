@@ -66,9 +66,15 @@ class MainMenu
   private
 
   def create_station 
-    puts "name of station"
-    station_name = gets.strip.capitalize
-    @stations << Station.new(station_name)
+    begin
+      puts "name of station"
+      station_name = gets.to_s
+      @stations << Station.new(station_name)
+      puts "New station created"
+    rescue RuntimeError => e
+        puts "Try again (only Russian language with capitalize allowed ) => example: Лесная"
+      retry
+    end
   end
 
   def create_train

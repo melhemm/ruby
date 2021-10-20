@@ -1,31 +1,25 @@
 module Acсessors
-  def attr_accessor_with_history(**kwargs)
-    kwargs.each do |key, values|
-      define_method("#{key}=") do |v|
-        if values.include?(v)
-        instance_variable_set("@#{key}", v)
-        else 
-          raise "err #{v}"
-        end
-      end
+  def attr_accessor_with_history(*args)
+    args.each do |arg|
+      var_arg = "@#{arg}".to_sym
+      define_method(arg) { instance_variable_get(var_arg) }
 
-      define_method(key) do
-        instance_variable_get("@#{key}")
+      define_method("#{arg}".to_sym) do |value|
+        instance_variable_set(args, value)
+        @history[args] ||= []
+        @history[args] << value
       end
+      define_method("#{name}_history") { @history[args] }
     end
   end
 
-  # def strong_attr_accessor(kwargs, type)
-
-  # end
+  def strong_attr_accessor(arg, type)
+    var_arg = "@#{arg}".to_sym
+    define_method(arg) {instance_variable_get(var_arg)}
+  
+    define_method("#{arg}=".to_sym) do |value|
+      raise "type error" if value.is_a?(type)
+      instance_variable_set(var_arg, value)
+    end
+  end
 end
-
-
-class A
-  extend Acсessors
-  attr_accessor_with_history person: [:name, :age, :gender]
-end
-
-person = A.new
-
-

@@ -1,0 +1,63 @@
+require_relative "accessors"
+require_relative "validation"
+
+class Station
+  attr_reader :trains, :name
+
+  include InstanceCounter
+  extend Acсessors
+  include Validation
+
+  STATION_NAME_REGEX = /^[А-Я]{1}[а-яё]{1,23}$/
+
+  attr_accessor_with_history :trains
+  validates :name, :type
+
+  @@stations = []
+
+
+  def initialize(name)
+    @name = name
+    @trains = []
+    @@stations << self
+    validate!
+    register_instance
+  end
+
+  def each_train(&block)
+    trains.each(&block) if block_given?
+  end
+
+  def validate!
+    errors = []
+    errors << 'check station name' if @name !~ STATION_NAME_REGEX
+    raise errors.join('.') unless errors.empty?
+  end
+
+  def valid?
+    validate!
+    true
+  rescue StandardError
+    false
+  end
+
+  def receive_train(train)
+    @trains << train
+  end
+
+  def send_train(train)
+    @trains.delete(train)
+  end
+
+  def show_trains_by_category(type)
+    @trains.count { |train| train.type == type }
+  end
+
+  def show_trains
+    @trains.each { |train| puts train.to_s }
+  end
+
+  def self.all
+    @@stations
+  end
+end
